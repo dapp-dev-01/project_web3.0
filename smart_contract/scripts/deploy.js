@@ -1,10 +1,10 @@
 const main = async () => {
-  const transactionsFactory = await hre.ethers.getContractFactory("Transactions");
-  const transactionsContract = await transactionsFactory.deploy();
+  const gifTokenFactory = await hre.ethers.getContractFactory("GifToken");
+  const gifTokenContract = await gifTokenFactory.deploy();
 
-  await transactionsContract.deployed();
+  await gifTokenContract.deployed();
 
-  console.log("Transactions address: ", transactionsContract.address);
+  console.log("gifToken address: ", gifTokenContract.address);
 };
 
 const runMain = async () => {
