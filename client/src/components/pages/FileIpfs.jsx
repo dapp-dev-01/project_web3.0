@@ -1,22 +1,32 @@
-import { Navbar, Welcome, Footer, Services, Transactions } from "../";
+import { Navbar, Welcome, Footer, Services, Transactions } from "..";
 import React from "react";
 import { BsShieldFillCheck } from "react-icons/bs";
 import { BiSearchAlt } from "react-icons/bi";
 import { RiHeart2Fill } from "react-icons/ri";
+import { pinJSONToIPFS, pinFileToIPFS } from "../../utils/ipfs";
 
 const handleFile = (e) => {
   const content = e.target.result;
-  console.log('file content',  content)
+  console.log('file content',  content);
 }
 
 const handleChangeFile = (file) => {
+  console.log('handleChangeFilet',  file);
   let fileData = new FileReader();
   fileData.onloadend = handleFile;
   fileData.readAsText(file);
+
+  pinFileToIPFS(file)
+  .then(function (response) {
+    console.log("XA");
+    console.log(response);
+    
+    console.log("XB");
+  });
 }
 
 
-const About = () => (
+const FileIpfs = () => (
   <div className="min-h-screen">
     <div className="gradient-bg-welcome">
         <Navbar />
@@ -51,4 +61,4 @@ const About = () => (
   </div>
 );
 
-export default About;
+export default FileIpfs;
