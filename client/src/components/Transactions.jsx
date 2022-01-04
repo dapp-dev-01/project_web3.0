@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 
+import { Button, Table } from 'react-bootstrap';
+
 import { TransactionContext } from "../context/TransactionContext";
 
 import useFetch from "../hooks/useFetch";
 import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
+
+const commonStyleGridItem = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
 const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
   const gifUrl = useFetch({ keyword });
@@ -49,6 +53,10 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
 
 const Transactions = () => {
   const { transactions, currentAccount } = useContext(TransactionContext);
+  function handleTransactionRowClick(msg){
+    console.log(msg);
+    window.open('https://mumbai.polygonscan.com/address/'+msg);
+  };
 
   return (
     <div className="flex w-full justify-center items-center 2xl:px-20 gradient-bg-transactions">
@@ -64,8 +72,30 @@ const Transactions = () => {
         )}
 
         <div className="flex flex-wrap justify-center items-center mt-10">
+            {[...dummyData, ...transactions].reverse().map((transaction, i) => (
+          <div className="grid sm:grid-cols-4 grid-cols-4 w-full mt-0">
+              <div className={commonStyleGridItem}>{shortenAddress(transaction.addressFrom)}</div>
+              <div className={commonStyleGridItem}>{transaction.amount}</div>
+              <div className={commonStyleGridItem}>{transaction.message}</div>
+              <div className={commonStyleGridItem}>{transaction.timestamp}</div>
+              <div className={commonStyleGridItem}>
+                  
+                <button
+                  type="button"
+                  onClick={() => handleTransactionRowClick(transaction.addressFrom)}
+                  className="text-white w-full mt-2 border-[1px] p-2 border-[#3d4f7c] hover:bg-[#3d4f7c] rounded-full cursor-pointer"
+                >
+                  View blockchian record
+                </button>
+              </div>
+              
+          </div>
+              ))}
+        </div>
+
+        <div className="flex flex-wrap justify-center items-center mt-10">
           {[...dummyData, ...transactions].reverse().map((transaction, i) => (
-            <TransactionsCard key={i} {...transaction} />
+            <TransactionsCard key={"x"+i} {...transaction} />
           ))}
         </div>
       </div>

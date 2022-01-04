@@ -45,6 +45,9 @@ export const TransactionsProvider = ({ children }) => {
         console.log(structuredTransactions);
 
         setTransactions(structuredTransactions);
+
+
+        
       } else {
         console.log("Ethereum is not present");
       }
@@ -107,6 +110,8 @@ export const TransactionsProvider = ({ children }) => {
         const transactionsContract = createEthereumContract();
         const parsedAmount = ethers.utils.parseEther(amount);
 
+        //We skip the eth sending for this demo
+        /*
         await ethereum.request({
           method: "eth_sendTransaction",
           params: [{
@@ -116,13 +121,24 @@ export const TransactionsProvider = ({ children }) => {
             value: parsedAmount._hex,
           }],
         });
+        */
 
+        //Original Contract method -> Add transaction
         const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
-
         setIsLoading(true);
         console.log(`Loading - ${transactionHash.hash}`);
         await transactionHash.wait();
         console.log(`Success - ${transactionHash.hash}`);
+        setIsLoading(false);
+
+        //New minting action
+        const overrides = {value: ethers.utils.parseEther(amount)};
+        const mintingHash = await transactionsContract.mint(currentAccount,1,overrides);
+        setIsLoading(true);
+        console.log(`Loading - ${mintingHash.hash}`);
+        await mintingHash.wait();
+        console.log(`Success - ${mintingHash.hash}`);
+        console.log(`Success - ${mintingHash}`);
         setIsLoading(false);
 
         const transactionsCount = await transactionsContract.getTransactionCount();
@@ -134,7 +150,7 @@ export const TransactionsProvider = ({ children }) => {
     } catch (error) {
       console.log(error);
 
-      throw new Error("No ethereum object");
+      throw new Error(error+"No ethereum object");
     }
   };
 

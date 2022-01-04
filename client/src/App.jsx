@@ -1,15 +1,34 @@
 import { Navbar, Welcome, Footer, Services, Transactions } from "./components";
+import { Home, About, TransactionList, FileIpfs } from "./components/pages";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Link,
+  Outlet
+} from "react-router-dom";
 
-const App = () => (
-  <div className="min-h-screen">
-    <div className="gradient-bg-welcome">
-      <Navbar />
-      <Welcome />
+const GuestLayout = () => {
+  return (
+    <div>
+      <h1>This is the Guest Layout Page</h1>
+      <Outlet />
     </div>
-    <Services />
-    <Transactions />
-    <Footer />
-  </div>
-);
+  );
+};
 
-export default App;
+
+export default function App() {
+  return (
+      <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="transactions" element={<TransactionList />} />
+            <Route path="ipfs" element={<FileIpfs />} />
+          </Routes>
+      </Router>
+  );
+}
+
+// export default App;

@@ -22,14 +22,17 @@ defaultNetwork: "matic_testnet",
         hardhat: {},
         matic_testnet: {
             url: "https://rpc-mumbai.maticvigil.com",
-        // accounts: ["37f212d557ebc510531c03b9df2d85fb68ea0dcddf8577ece26ad0ebc1e38709"],
-	//accounts:["061f6d6a8d394cf020d62133ea828e4e334cd0a1c4023a429867260d02225265"],
-		//below is POC acc
-accounts:["60f78d270a8e52d3dd95128aa5757a5248ac8ce494fa51f4d77c9e96e8928da7"],
-
+            accounts:["60f78d270a8e52d3dd95128aa5757a5248ac8ce494fa51f4d77c9e96e8928da7"],
             gasPrice: "auto",
-		gas:"auto"
-        }
+        		gas:"auto"
+        },
+        avax_testnet: {
+          url: "https://api.avax-test.network/ext/bc/C/rpc",
+			    accounts:["a15715c7eef165c319efe2ea5049531d41a16ee5beee8362db6f1349cc71d345"],
+          gasPrice: "auto",
+          gas:"auto"
+      }
+
     },
 	solidity: "0.8.4",
 };
