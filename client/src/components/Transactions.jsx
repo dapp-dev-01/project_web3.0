@@ -10,7 +10,7 @@ import { shortenAddress } from "../utils/shortenAddress";
 
 const commonStyleGridItem = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
-const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
+const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url, imageUrl }) => {
   const gifUrl = useFetch({ keyword });
 
   return (
@@ -39,7 +39,7 @@ const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword,
           )}
         </div>
         <img
-          src={gifUrl || url}
+          src={imageUrl || url || gifUrl}
           alt="nature"
           className="w-full h-64 2xl:h-96 rounded-md shadow-lg object-cover"
         />

@@ -16,13 +16,14 @@ const createEthereumContract = () => {
 };
 
 export const TransactionsProvider = ({ children }) => {
-  const [formData, setformData] = useState({ addressTo: "", amount: "", keyword: "", message: "" });
+  const [formData, setformData] = useState({ addressTo: "", amount: "", keyword: "", message: "", imageUrl: "" });
   const [currentAccount, setCurrentAccount] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [transactionCount, setTransactionCount] = useState(localStorage.getItem("transactionCount"));
   const [transactions, setTransactions] = useState([]);
 
   const handleChange = (e, name) => {
+    console.log("handleChange: "+name+"--->"+e.target.value);
     setformData((prevState) => ({ ...prevState, [name]: e.target.value }));
   };
 
@@ -39,7 +40,9 @@ export const TransactionsProvider = ({ children }) => {
           timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
           message: transaction.message,
           keyword: transaction.keyword,
-          amount: parseInt(transaction.amount._hex) / (10 ** 18)
+          amount: parseInt(transaction.amount._hex) / (10 ** 18),
+          //Debug: adhoc fix image path
+          imageUrl: "https://gateway.pinata.cloud/ipfs/"+transaction.imageUrl.replace(" ","").replace("https://gateway.pinata.cloud/ipfs/","")
         }));
 
         console.log(structuredTransactions);
@@ -106,7 +109,7 @@ export const TransactionsProvider = ({ children }) => {
   const sendTransaction = async () => {
     try {
       if (ethereum) {
-        const { addressTo, amount, keyword, message } = formData;
+        const { addressTo, amount, keyword, message, imageUrl } = formData;
         const transactionsContract = createEthereumContract();
         const parsedAmount = ethers.utils.parseEther(amount);
 
@@ -124,7 +127,7 @@ export const TransactionsProvider = ({ children }) => {
         */
 
         //Original Contract method -> Add transaction
-        const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword);
+        const transactionHash = await transactionsContract.addToBlockchain(addressTo, parsedAmount, message, keyword,imageUrl);
         setIsLoading(true);
         console.log(`Loading - ${transactionHash.hash}`);
         await transactionHash.wait();

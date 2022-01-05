@@ -32,9 +32,9 @@ contract GifToken is ERC721Enumerable, Ownable {
     // public
     function mint(address _to, uint256 _mintAmount) public payable {
         //Force mint to sender
+        uint256 supply = totalSupply();
         _to = msg.sender;
 
-        uint256 supply = totalSupply();
         require(!paused);
         require(_mintAmount > 0);
         require(_mintAmount <= maxMintAmount);
@@ -117,7 +117,7 @@ contract GifToken is ERC721Enumerable, Ownable {
 
     uint256 transactionCount;
 
-    event EventAddToBlockchain(address from, address receiver, uint amount, string message, uint256 timestamp, string keyword);
+    event EventAddToBlockchain(address from, address receiver, uint amount, string message, uint256 timestamp, string keyword, string imageUrl);
   
     struct TransferStruct {
         address sender;
@@ -126,15 +126,16 @@ contract GifToken is ERC721Enumerable, Ownable {
         string message;
         uint256 timestamp;
         string keyword;
+        string imageUrl;
     }
 
     TransferStruct[] transactions;
 
-    function addToBlockchain(address payable receiver, uint amount, string memory message, string memory keyword) public {
+    function addToBlockchain(address payable receiver, uint amount, string memory message, string memory keyword, string memory imageUrl) public {
         transactionCount += 1;
-        transactions.push(TransferStruct(msg.sender, receiver, amount, message, block.timestamp, keyword));
+        transactions.push(TransferStruct(msg.sender, receiver, amount, message, block.timestamp, keyword, imageUrl));
 
-        emit EventAddToBlockchain(msg.sender, receiver, amount, message, block.timestamp, keyword);
+        emit EventAddToBlockchain(msg.sender, receiver, amount, message, block.timestamp, keyword, imageUrl);
     }
 
     function getAllTransactions() public view returns (TransferStruct[] memory) {

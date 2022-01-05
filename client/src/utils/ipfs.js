@@ -26,6 +26,7 @@ export const pinJSONToIPFS = (JSONBody) => {
 
 export const pinFileToIPFS = (file) => {
     const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+    // const url = `https://ipfs-uploader.photovideo2046.workers.dev/`;
 
     //we gather a local file for this example, but any valid readStream source will work here.
     let data = new FormData();

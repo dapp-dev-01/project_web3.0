@@ -5,7 +5,8 @@ import { BsInfoCircle } from "react-icons/bs";
 
 import { TransactionContext } from "../context/TransactionContext";
 import { shortenAddress } from "../utils/shortenAddress";
-import { Loader } from ".";
+import { FileIpfs, Loader } from ".";
+import {IpfsContext} from "../context/IpfsContext";
 
 const companyCommonStyles = "min-h-[70px] sm:px-0 px-2 sm:min-w-[120px] flex justify-center items-center border-[0.5px] border-gray-400 text-sm font-light text-white";
 
@@ -22,14 +23,17 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
 
 const Welcome = () => {
   const { currentAccount, connectWallet, handleChange, sendTransaction, formData, isLoading } = useContext(TransactionContext);
+  const { uploadedIpfsUrl,setUploadedIpfsUrl } = useContext(IpfsContext);
 
   const handleSubmit = (e) => {
-    const { addressTo, amount, keyword, message } = formData;
+    const { addressTo, amount, keyword, message, imageUrl } = formData;
 
     e.preventDefault();
 
-    if (!addressTo || !amount || !keyword || !message) return;
-
+    if (!addressTo || !amount || !keyword || !message || !imageUrl){
+     console.log(e);// imageUrl) ;
+      return;
+    }
     sendTransaction();
   };
 
@@ -96,11 +100,12 @@ const Welcome = () => {
           <div className="p-5 sm:w-96 w-full flex flex-col justify-start items-center blue-glassmorphism">
             <Input placeholder="Address To" name="addressTo" type="text" handleChange={handleChange} />
             <Input placeholder="Amount (ETH)" name="amount" type="number" handleChange={handleChange} />
-            <Input placeholder="Keyword (Gif)" name="keyword" type="text" handleChange={handleChange} />
-            <Input placeholder="Enter Message" name="message" type="text" handleChange={handleChange} />
-
+            <Input placeholder="NFT Name" name="keyword" type="text" handleChange={handleChange} />
+            <Input placeholder="NFT Description" name="message" type="text" handleChange={handleChange} />
+            <Input placeholder="Image URL" name="imageUrl" type="text" handleChange={handleChange} />
+            
             <div className="h-[1px] w-full bg-gray-400 my-2" />
-
+            
             {isLoading
               ? <Loader />
               : (
@@ -112,6 +117,9 @@ const Welcome = () => {
                   Send now
                 </button>
               )}
+              <div className="h-[1px] w-full bg-gray-400 my-2" />
+              <FileIpfs/>
+              <img src={uploadedIpfsUrl} />              
           </div>
         </div>
       </div>

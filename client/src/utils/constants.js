@@ -1,7 +1,5 @@
 import abi from "./GifToken.json";
 
-
-// export const contractAddress = "0xfefE9014614dc7C19FF0E2f0bF78c034cE04bf73";
 //matic mumbai
-export const contractAddress = "0xfd84cff6a58173fa3e5086b0170ff560241de0b7";
+export const contractAddress = "0x5d0a04bb1cecb339346a11b514e71863fc17e0b4";
 export const contractABI = abi.abi;
