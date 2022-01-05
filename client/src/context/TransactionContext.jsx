@@ -106,10 +106,11 @@ export const TransactionsProvider = ({ children }) => {
     }
   };
 
-  const sendTransaction = async () => {
+  const sendTransaction = async (addressTo, amount, keyword, message, imageUrl) => {
     try {
       if (ethereum) {
-        const { addressTo, amount, keyword, message, imageUrl } = formData;
+        // const { addressTo, amount, keyword, message, imageUrl } = formData;
+        console.log("----"+addressTo +" "+ amount +" "+ keyword +" "+ message +" "+ imageUrl);
         const transactionsContract = createEthereumContract();
         const parsedAmount = ethers.utils.parseEther(amount);
 

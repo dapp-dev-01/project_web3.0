@@ -21,7 +21,7 @@ const Input = ({ placeholder, name, type, value, handleChange }) => (
   />
 );
 
-const Welcome = () => {
+const RedeemBlock = () => {
   const { currentAccount, connectWallet, handleChange, sendTransaction, formData, isLoading } = useContext(TransactionContext);
   const { uploadedIpfsUrl,setUploadedIpfsUrl } = useContext(IpfsContext);
 
@@ -132,4 +132,4 @@ const Welcome = () => {
   );
 };
 
-export default Welcome;
+export default RedeemBlock;

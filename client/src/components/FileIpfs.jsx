@@ -12,7 +12,7 @@ const FileIpfs = () => {
 
   const handleFile = (e) => {
     const content = e.target.result;
-    console.log('file content',  content);
+    // console.log('file content',  content);
   }
   
   const handleChangeFile = (file) => {
@@ -23,16 +23,14 @@ const FileIpfs = () => {
   
     pinFileToIPFS(file)
     .then(function (response) {
-      console.log("XA");
-      console.log(response);
+      //this is raw file binary data
+      // console.log(response);
 
       //Temp solution - replace ipfs url to use pinata.cloud gateway url
       response = response.replace("ipfs.io/","gateway.pinata.cloud/");
       setUploadedIpfsUrl(response);
-      console.log(">>>>>>>>>XA");
       console.log(uploadedIpfsUrl);
-      console.log(">>>>>>>>>XB");
-      console.log("XA");
+
     });
   }
   return (

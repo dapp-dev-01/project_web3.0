@@ -73,7 +73,7 @@ const Transactions = () => {
 
         <div className="flex flex-wrap justify-center items-center mt-10">
             {[...dummyData, ...transactions].reverse().map((transaction, i) => (
-          <div className="grid sm:grid-cols-4 grid-cols-4 w-full mt-0">
+          <div className="grid sm:grid-cols-5 grid-cols-5 w-full mt-0">
               <div className={commonStyleGridItem}>{shortenAddress(transaction.addressFrom)}</div>
               <div className={commonStyleGridItem}>{transaction.amount}</div>
               <div className={commonStyleGridItem}>{transaction.message}</div>

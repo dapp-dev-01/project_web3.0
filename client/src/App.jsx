@@ -1,5 +1,5 @@
 import { Navbar, Welcome, Footer, Services, Transactions } from "./components";
-import { Home, About, TransactionList } from "./components/pages";
+import { Home, About, TransactionList, Redeem } from "./components/pages";
 import {
   BrowserRouter as Router,
   Route,
@@ -24,6 +24,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="redeem" element={<Redeem />} />
             <Route path="transactions" element={<TransactionList />} />
             {/* <Route path="ipfs" element={<FileIpfs />} /> */}
           </Routes>
