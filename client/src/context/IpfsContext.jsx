@@ -4,10 +4,15 @@ export const IpfsContext = React.createContext();
 
 export const IpfsProvider = ({ children }) => {
   const [uploadedIpfsUrl, setUploadedIpfsUrl] = useState("");
+  const [uploadedJsonIpfsUrl, setUploadedJsonIpfsUrl] = useState("");
+  
   const [isLoading, setIsLoading] = useState(false);
 
   const updateUploadedIpfsUrl = async (url) => {
     setUploadedIpfsUrl(url);
+  };
+  const updateUploadedJsonIpfsUrl = async (json) => {
+    setUploadedJsonIpfsUrl(json);
   };
 
   return (
@@ -15,7 +20,9 @@ export const IpfsProvider = ({ children }) => {
       value={{
         uploadedIpfsUrl,
         setUploadedIpfsUrl,
-        updateUploadedIpfsUrl
+        updateUploadedIpfsUrl,
+        uploadedJsonIpfsUrl,
+        setUploadedJsonIpfsUrl,
       }}
     >
       {children}

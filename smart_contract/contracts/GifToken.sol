@@ -16,12 +16,13 @@ contract GifToken is ERC721Enumerable, Ownable {
     uint256 public maxMintAmount = 20;
     bool public paused = false;
     mapping(address => bool) public whitelisted;
+    mapping(uint256 => string) public tokenUrls;
 
 
     constructor(
     ) ERC721("POC-M-GIF","PMG1") {
-        setBaseURI("https://nft-metadata-json.photovideo2046.workers.dev/");
-        _safeMint(msg.sender, 1);
+        // setBaseURI("https://nft-metadata-json.photovideo2046.workers.dev/");
+        // _safeMint(msg.sender, 1);
     }
 
     // internal
@@ -30,7 +31,7 @@ contract GifToken is ERC721Enumerable, Ownable {
     }
 
     // public
-    function mint(address _to, uint256 _mintAmount) public payable {
+    function mint(address _to, uint256 _mintAmount,  string memory _url) public payable {
         //Force mint to sender
         uint256 supply = totalSupply();
         _to = msg.sender;
@@ -48,6 +49,7 @@ contract GifToken is ERC721Enumerable, Ownable {
 
         for (uint256 i = 1; i <= _mintAmount; i++) {
             _safeMint(_to, supply + i);
+            setTokenURI(supply + i, _url);
         }
     }
 
@@ -64,6 +66,10 @@ contract GifToken is ERC721Enumerable, Ownable {
         return tokenIds;
     }
 
+    function setTokenURI(uint256 tokenId, string memory _url) public onlyOwner {
+        tokenUrls[tokenId] = _url;
+    }
+
     function tokenURI(uint256 tokenId)
         public
         view
@@ -76,10 +82,13 @@ contract GifToken is ERC721Enumerable, Ownable {
         "ERC721Metadata: URI query for nonexistent token"
         );
 
+        return tokenUrls[tokenId];
+        /*
         string memory currentBaseURI = _baseURI();
         return bytes(currentBaseURI).length > 0
             ? string(abi.encodePacked(currentBaseURI, tokenId.toString(), baseExtension))
             : "";
+        */
     }
 
     //only owner
