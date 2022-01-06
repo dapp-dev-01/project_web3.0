@@ -7,6 +7,12 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract GifToken is ERC721Enumerable, Ownable {
+
+    //Debug use
+    event DebugLogInt(string key, uint256 value);  
+    event DebugLogStr(string key, string value);  
+    event DebugLogAddr(string key, address value);  
+        
     using Strings for uint256;
 
     string public baseURI;
@@ -18,11 +24,37 @@ contract GifToken is ERC721Enumerable, Ownable {
     mapping(address => bool) public whitelisted;
     mapping(uint256 => string) public tokenUrls;
 
+    mapping(uint => address) public ruleInvokers;
+    
+    //TransactionRule Block
+    struct TransactionRuleStruct {
+        uint ruleId;
+        string ruleMetaUrl;     // description, image, creator, etc.
+        uint ruleType;        // higher , lower , equals, in-between
+        string dataSourceURL;   // json or csv
+        string dataSourceHash;  // hash of the original data
+        uint256 computedValue;   // computed by middle api , assume this value correct if data source valid
+        string executionDate;   // data come from 1 day before the execution Date
+    }
+    TransactionRuleStruct[] transactionRules;
+
+    // TEST
+    function test_rule() public returns (string memory) {
+        transactionRules.push(
+            TransactionRuleStruct(
+                1,"abc",2,"aa","bb",5678,"2021-08-12"
+            )
+        );
+
+        emit EventAddToBlockchain(msg.sender, receiver, amount, message, block.timestamp, keyword, imageUrl);
+        
+        return baseURI;
+    }
 
     constructor(
-    ) ERC721("POC-M-GIF","PMG1") {
-        // setBaseURI("https://nft-metadata-json.photovideo2046.workers.dev/");
-        // _safeMint(msg.sender, 1);
+    ) ERC721("POC-M-GIF","PMG2") {
+        setBaseURI("https://nft-metadata-json.photovideo2046.workers.dev/");
+        _safeMint(msg.sender, 1);
     }
 
     // internal
@@ -31,7 +63,12 @@ contract GifToken is ERC721Enumerable, Ownable {
     }
 
     // public
-    function mint(address _to, uint256 _mintAmount,  string memory _url) public payable {
+    function addTransactionRule(address _to, uint256 _mintAmount) public payable {
+        
+    }
+
+    // public
+    function mint(address _to, uint256 _mintAmount) public payable {
         //Force mint to sender
         uint256 supply = totalSupply();
         _to = msg.sender;
